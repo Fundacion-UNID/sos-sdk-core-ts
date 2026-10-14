@@ -1,0 +1,4 @@
+interface:
+  display_name: "Preserve shared SOS SDK layering"
+  short_description: "Keep SOS, Vet and UHC package boundaries correct"
+  default_prompt: "Use $preserve-shared-sos-sdk-layering to keep this orchestration in the correct shared SDK layer."

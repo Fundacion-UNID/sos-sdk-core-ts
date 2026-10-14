@@ -1,0 +1,87 @@
+{
+  "name": "sos-sdk-core-ts",
+  "version": "0.5.2",
+  "description": "Runtime-neutral shared orchestration for SOS, Vet and UHC products",
+  "license": "Apache-2.0",
+  "author": "Connecting Solution & Applications Ltd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fundacion-UNID/sos-sdk-core-ts.git"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./care-emergency-alert-orchestration": {
+      "types": "./dist/care-emergency-alert-orchestration.d.ts",
+      "default": "./dist/care-emergency-alert-orchestration.js"
+    },
+    "./emergency-authorization": {
+      "types": "./dist/emergency-authorization.d.ts",
+      "default": "./dist/emergency-authorization.js"
+    },
+    "./secure-message-crypto": {
+      "types": "./dist/secure-message-crypto.d.ts",
+      "default": "./dist/secure-message-crypto.js"
+    },
+    "./equipment-compliance-orchestration": {
+      "types": "./dist/equipment-compliance-orchestration.d.ts",
+      "default": "./dist/equipment-compliance-orchestration.js"
+    },
+    "./communication-bundle": {
+      "types": "./dist/communication-bundle.d.ts",
+      "default": "./dist/communication-bundle.js"
+    },
+    "./fhir-scheduling": {
+      "types": "./dist/fhir-scheduling.d.ts",
+      "default": "./dist/fhir-scheduling.js"
+    },
+    "./bundle-changes-response": {
+      "types": "./dist/bundle-changes-response.d.ts",
+      "default": "./dist/bundle-changes-response.js"
+    },
+    "./encounter-transfer-communication": {
+      "types": "./dist/encounter-transfer-communication.d.ts",
+      "default": "./dist/encounter-transfer-communication.js"
+    },
+    "./bundle-sync-draft": {
+      "types": "./dist/bundle-sync-draft.d.ts",
+      "default": "./dist/bundle-sync-draft.js"
+    },
+    "./organization-subject-group-orchestration": {
+      "types": "./dist/organization-subject-group-orchestration.d.ts",
+      "default": "./dist/organization-subject-group-orchestration.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "NOTICE",
+    "docs"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "check": "npm run typecheck && npm test",
+    "prepack": "npm run check"
+  },
+  "dependencies": {
+    "@noble/ciphers": "2.4.0",
+    "@noble/hashes": "2.4.0",
+    "@noble/post-quantum": "0.7.1",
+    "fhir-data-utils-ts": "0.6.20",
+    "gdc-common-utils-ts": "2.9.21",
+    "sos-data-utils-ts": "0.6.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "typescript": "^5.5.4"
+  }
+}
