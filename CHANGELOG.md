@@ -3,6 +3,11 @@
 
 ## Unreleased
 
+- Add one product-neutral public-health statistics Communication contract.
+  Professional flows express publication intent while certifying coded
+  evidence; individuals may later reference a stored professional-origin
+  record or submit a code-only self-report. The SDK never asserts
+  qualification, provenance, authorization, routing or ledger identity.
 - Add the 2026 development-owner notice and re-establish the public repository
   from a clean source snapshot while
   retaining this changelog as the package release record.
