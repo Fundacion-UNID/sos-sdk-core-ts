@@ -43,8 +43,29 @@ export type AppointmentCommunicationBundleInput = Readonly<{
   }>
 }>
 
+type IndividualPublicHealthStatisticsReportCommunicationBase = Readonly<{
+  communicationIdentifier: string
+  subjectReference: string
+  senderReference?: string
+  recipientReferences?: readonly string[]
+}>
+export type IndividualPublicHealthStatisticsReportCommunicationInput =
+  IndividualPublicHealthStatisticsReportCommunicationBase & (
+    | Readonly<{ reportKind: 'clinical-record'; resourceType: string; resourceId: string }>
+    | Readonly<{
+        reportKind: 'self-report'
+        section: string
+        codingSystem: string
+        code: string
+        occurredOn: string
+        speciesTaxonomyId?: string
+        ageBand?: string
+        sex?: string
+      }>
+  )
+
 /**
- * SOS/Vet/UHC extension of the existing GDC BundleEditor.
+ * Product-neutral extension of the existing GDC BundleEditor.
  *
  * The inherited editor owns the canonical outer claims-first batch. Each
  * staged message is a CommunicationAttachedBundleSession, so the existing
@@ -134,6 +155,49 @@ export function prepareAppointmentCommunicationBundle(
     .build() as Record<string, unknown>
 }
 
+/**
+ * Authors either a reference to private clinical evidence or a coded
+ * individual self-report. Authority, subject kind, jurisdiction, ledger
+ * routing and statistic identity always remain server-derived.
+ */
+export function prepareIndividualPublicHealthStatisticsReportCommunication(
+  input: IndividualPublicHealthStatisticsReportCommunicationInput,
+): Record<string, unknown> {
+  const communicationIdentifier = requireText(
+    input.communicationIdentifier,
+    'communication_identifier_required',
+  )
+  const subjectReference = requireText(input.subjectReference, 'communication_subject_required')
+  const claims: Record<string, unknown> = { 'Parameters.reportKind': input.reportKind }
+  if (input.reportKind === 'clinical-record') {
+    claims['Parameters.resourceType'] = requireText(input.resourceType, 'public_health_statistics_resource_type_required')
+    claims['Parameters.resourceId'] = requireText(input.resourceId, 'public_health_statistics_resource_id_required')
+  } else {
+    claims['Parameters.section'] = requireText(input.section, 'public_health_statistics_section_required')
+    claims['Parameters.codingSystem'] = requireText(input.codingSystem, 'public_health_statistics_coding_system_required')
+    claims['Parameters.code'] = requireText(input.code, 'public_health_statistics_code_required')
+    claims['Parameters.occurredOn'] = requireText(input.occurredOn, 'public_health_statistics_occurred_on_required')
+    if (input.speciesTaxonomyId) claims['Parameters.speciesTaxonomyId'] = input.speciesTaxonomyId
+    if (input.ageBand) claims['Parameters.ageBand'] = input.ageBand
+    if (input.sex) claims['Parameters.sex'] = input.sex
+  }
+  const message = new CommunicationBundleEditor().newCommunication()
+  message
+    .setIdentifier(communicationIdentifier)
+    .setStatus('completed')
+    .setSubject(subjectReference)
+    .setAttachmentTitle('public-health-statistic-report.json')
+    .setInnerBundleType('batch')
+    .addResource({
+      resourceType: 'Parameters',
+      id: `${communicationIdentifier}-parameters`,
+      meta: { claims },
+    }, { method: 'POST', url: 'PublicHealthStatistic/$report' })
+  if (input.senderReference) message.setSender(input.senderReference)
+  if (input.recipientReferences?.length) message.setRecipients(input.recipientReferences)
+  return message.doneCommunication().build() as Record<string, unknown>
+}
+
 /** High-level message editor extending the established attached-Bundle session. */
 export class CommunicationMessageEditor extends CommunicationAttachedBundleSession {
   readonly #parent: CommunicationBundleEditor
@@ -171,6 +235,22 @@ export class CommunicationMessageEditor extends CommunicationAttachedBundleSessi
     return this
   }
   getInnerBundleType(): CommunicationInnerBundleType { return this.getAttachedBundle().type as CommunicationInnerBundleType }
+
+  /** Adds publication intent only; the GW independently derives every authority fact. */
+  requestPublicHealthStatisticsRegistration(): this {
+    const bundle = this.getAttachedBundle()
+    const meta = bundle.meta && typeof bundle.meta === 'object' && !Array.isArray(bundle.meta)
+      ? bundle.meta as Record<string, unknown>
+      : {}
+    const claims = meta.claims && typeof meta.claims === 'object' && !Array.isArray(meta.claims)
+      ? meta.claims as Record<string, unknown>
+      : {}
+    this.setAttachedBundle({
+      ...bundle,
+      meta: { ...meta, claims: { ...claims, registerResearchMetadata: true } },
+    })
+    return this
+  }
 
   /** Adds one canonical claims-first resource to the existing attached-Bundle session. */
   addResource(resource: FhirResource, request?: Readonly<{ method: 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'GET'; url: string; ifMatch?: string }>): this {

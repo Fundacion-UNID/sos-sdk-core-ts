@@ -64,6 +64,10 @@ contains exactly one inner document, batch or collection Bundle in its
 audio or `text/calendar` are DocumentReference entries inside the inner Bundle.
 Native FHIR R4/R5 is materialized only at an explicit adapter boundary. See
 [Communication Bundle editor and reader](docs/COMMUNICATION_BUNDLE_EDITOR_READER.md).
+
+Anonymous public-health contributions use the same shared Communication
+contract for human and animal products. See
+[public-health statistics](docs/PUBLIC_HEALTH_STATISTICS.md).
 The shared scheduling and response-correlation boundary is documented in
 [FHIR scheduling interoperability](docs/FHIR_SCHEDULING_INTEROPERABILITY.md).
 Source-to-destination care movement and subject-index projection are documented
