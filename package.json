@@ -82,7 +82,7 @@
     "@noble/post-quantum": "0.7.1",
     "fhir-data-utils-ts": "0.6.20",
     "gdc-common-utils-ts": "2.9.21",
-    "sos-data-utils-ts": "0.6.12"
+    "sos-data-utils-ts": "0.6.21"
   },
   "devDependencies": {
     "@types/node": "^22.5.0",
