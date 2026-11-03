@@ -15,7 +15,7 @@ const provider = (suffix, subjectKinds, operations) => ({
   subjectKinds,
   operations,
   ...(operations.includes('create') ? { providerCode9: REPOSITORY_SAFE_EXAMPLES.organizationBusinessNumber } : {}),
-  ...(operations.includes('create') ? { cardDidHost: 'cards.example.invalid' } : {}),
+  ...(operations.includes('create') ? { cardDidHost: REPOSITORY_SAFE_EXAMPLES.domain } : {}),
 })
 
 test('discovers every compatible provider without using list order as write authority', () => {
