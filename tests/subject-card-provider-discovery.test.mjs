@@ -9,8 +9,7 @@ import {
 import { REPOSITORY_SAFE_EXAMPLES } from 'sos-data-utils-ts/repository-privacy'
 
 const provider = (suffix, subjectKinds, operations) => ({
-  providerId: `${REPOSITORY_SAFE_EXAMPLES.didWeb}:${suffix}`,
-  providerDid: `${REPOSITORY_SAFE_EXAMPLES.didWeb}:${suffix}`,
+  indexProviderDid: `${REPOSITORY_SAFE_EXAMPLES.didWeb}:${suffix}`,
   displayName: `${REPOSITORY_SAFE_EXAMPLES.organizationLegalName} ${suffix}`,
   directoryRoute: `${REPOSITORY_SAFE_EXAMPLES.httpsBaseUrl}/${REPOSITORY_SAFE_EXAMPLES.tenantId}-${suffix}/cds-CA/v1/${REPOSITORY_SAFE_EXAMPLES.sector}`,
   subjectKinds,
@@ -38,17 +37,17 @@ test('selects only the exact compatible provider and rejects browser tampering',
   const human = provider('human', ['human'], ['directory', 'create'])
 
   assert.equal(selectSubjectCardProvider([animal, human], {
-    providerId: animal.providerId,
+    providerId: animal.indexProviderDid,
     subjectKind: 'animal',
     operation: 'create',
-  }).providerId, animal.providerId)
+  }).providerId, animal.indexProviderDid)
   assert.throws(() => selectSubjectCardProvider([animal, human], {
     providerId: `${REPOSITORY_SAFE_EXAMPLES.didWeb}:unknown`,
     subjectKind: 'animal',
     operation: 'create',
   }), /provider_not_available/)
   assert.throws(() => selectSubjectCardProvider([animal, human], {
-    providerId: human.providerId,
+    providerId: human.indexProviderDid,
     subjectKind: 'animal',
     operation: 'create',
   }), /provider_not_available/)
