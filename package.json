@@ -1,6 +1,6 @@
 {
   "name": "sos-sdk-core-ts",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Runtime-neutral shared orchestration for multichannel healthcare and emergency services",
   "license": "Apache-2.0",
   "author": "Connecting Solution & Applications Ltd",

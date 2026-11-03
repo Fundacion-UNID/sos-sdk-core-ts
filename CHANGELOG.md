@@ -3,9 +3,13 @@
 
 ## Unreleased
 
+## 0.5.4 - 2026-11-03
+
 - Discover and select subject-card providers by exact stable identity, subject
   kind and advertised operation. Catalog order never chooses a write target,
   and conflicting duplicate provider identities fail closed.
+
+## 0.5.3 - 2026-10-24
 
 - Add one product-neutral public-health statistics Communication contract.
   Professional flows express publication intent while certifying coded
