@@ -55,6 +55,10 @@
     "./organization-subject-group-orchestration": {
       "types": "./dist/organization-subject-group-orchestration.d.ts",
       "default": "./dist/organization-subject-group-orchestration.js"
+    },
+    "./subject-card-provider-discovery": {
+      "types": "./dist/subject-card-provider-discovery.d.ts",
+      "default": "./dist/subject-card-provider-discovery.js"
     }
   },
   "files": [

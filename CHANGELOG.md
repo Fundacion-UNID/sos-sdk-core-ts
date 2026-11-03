@@ -3,6 +3,10 @@
 
 ## Unreleased
 
+- Discover and select subject-card providers by exact stable identity, subject
+  kind and advertised operation. Catalog order never chooses a write target,
+  and conflicting duplicate provider identities fail closed.
+
 - Add one product-neutral public-health statistics Communication contract.
   Professional flows express publication intent while certifying coded
   evidence; individuals may later reference a stored professional-origin
