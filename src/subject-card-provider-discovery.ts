@@ -7,6 +7,8 @@ import {
 export type SubjectCardProviderDiscoveryFilter = Readonly<{
   subjectKind: 'human' | 'animal'
   operation: SubjectCardProviderOperation
+  /** Optional ISO 3166-1 alpha-2 country used only for service discovery. */
+  serviceCountry?: string
 }>
 
 /** Filters a verified catalog without turning its order into write authority. */
@@ -14,6 +16,10 @@ export function discoverSubjectCardProviders(
   catalog: readonly SubjectCardProviderDescriptor[],
   filter: SubjectCardProviderDiscoveryFilter,
 ): readonly SubjectCardProviderDescriptor[] {
+  const serviceCountry = String(filter.serviceCountry || '').trim().toUpperCase()
+  if (serviceCountry && !/^[A-Z]{2}$/u.test(serviceCountry)) {
+    throw new Error('provider_service_country_invalid')
+  }
   const providers = new Map<string, SubjectCardProviderDescriptor>()
   for (const candidate of catalog) {
     const provider = createSubjectCardProviderDescriptor(candidate)
@@ -25,7 +31,8 @@ export function discoverSubjectCardProviders(
   }
   return Object.freeze([...providers.values()].filter(provider =>
     provider.subjectKinds.includes(filter.subjectKind)
-      && provider.operations.includes(filter.operation)))
+      && provider.operations.includes(filter.operation)
+      && (!serviceCountry || provider.areaServed.includes(serviceCountry))))
 }
 
 /** Resolves only an exact server-verified provider selection. */

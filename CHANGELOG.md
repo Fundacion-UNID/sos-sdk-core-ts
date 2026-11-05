@@ -3,6 +3,10 @@
 
 ## Unreleased
 
+- Filter subject-card index discovery by an optional normalized ISO 3166-1
+  service country while preserving exact provider selection. Coverage affects
+  discovery only and never becomes card or clinical authority.
+
 ## 0.5.4 - 2026-11-03
 
 - Discover and select subject-card providers by exact stable identity, subject

@@ -8,14 +8,33 @@ import {
 } from '../dist/subject-card-provider-discovery.js'
 import { REPOSITORY_SAFE_EXAMPLES } from 'sos-data-utils-ts/repository-privacy'
 
-const provider = (suffix, subjectKinds, operations) => ({
+const provider = (suffix, subjectKinds, operations, areaServed = ['CA']) => ({
   indexProviderDid: `${REPOSITORY_SAFE_EXAMPLES.didWeb}:${suffix}`,
   displayName: `${REPOSITORY_SAFE_EXAMPLES.organizationLegalName} ${suffix}`,
   directoryRoute: `${REPOSITORY_SAFE_EXAMPLES.httpsBaseUrl}/${REPOSITORY_SAFE_EXAMPLES.tenantId}-${suffix}/cds-CA/v1/${REPOSITORY_SAFE_EXAMPLES.sector}`,
   subjectKinds,
+  areaServed,
   operations,
   ...(operations.includes('create') ? { providerCode9: REPOSITORY_SAFE_EXAMPLES.organizationBusinessNumber } : {}),
   ...(operations.includes('create') ? { cardDidHost: REPOSITORY_SAFE_EXAMPLES.domain } : {}),
+})
+
+test('filters provider discovery by the index service ISO country coverage', () => {
+  const catalog = [
+    provider('animal-ca', ['animal'], ['directory', 'create'], ['CA']),
+    provider('animal-us', ['animal'], ['directory', 'create'], ['US']),
+  ]
+
+  const discovered = discoverSubjectCardProviders(catalog, {
+    subjectKind: 'animal', operation: 'create', serviceCountry: 'ca',
+  })
+
+  assert.deepEqual(discovered.map(item => item.providerId), [
+    `${REPOSITORY_SAFE_EXAMPLES.didWeb}:animal-ca`,
+  ])
+  assert.throws(() => discoverSubjectCardProviders(catalog, {
+    subjectKind: 'animal', operation: 'create', serviceCountry: 'CAN',
+  }), /provider_service_country_invalid/)
 })
 
 test('discovers every compatible provider without using list order as write authority', () => {
