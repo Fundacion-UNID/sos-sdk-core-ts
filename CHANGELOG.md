@@ -1,7 +1,7 @@
 <!-- Copyright 2026 Connecting Solution & Applications Ltd under the Apache License, Version 2.0. -->
 # Changelog
 
-## Unreleased
+## 0.5.5 - 2026-11-04
 
 - Filter subject-card index discovery by an optional normalized ISO 3166-1
   service country while preserving exact provider selection. Coverage affects
