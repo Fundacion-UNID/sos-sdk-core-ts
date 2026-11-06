@@ -6,7 +6,7 @@ description: Preserve sos-sdk-core-ts as the runtime-neutral common orchestratio
 # Preserve shared SOS SDK layering
 ## Blocking local-first SDK release
 
-The canonical contract is [`SDK_LAYERING.md`](https://github.com/Fundacion-UNID/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
+The canonical contract is [`SDK_LAYERING.md`](https://github.com/soschain/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
 Merge validated shared dependency sources to `main`, build immutable
 unpublished tarballs from those commits with `npm pack`, install them
 temporarily using `--no-save`, and prove the real local Vet channel (portal,

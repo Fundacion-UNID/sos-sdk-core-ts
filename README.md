@@ -12,7 +12,7 @@ the former Git push history.
 Shared SOS orchestration includes [equipment calibration and operating authorization](docs/EQUIPMENT_COMPLIANCE.md) without embedding product roles or persistence plumbing.
 ## Blocking local-first SDK release
 
-The canonical contract is [`SDK_LAYERING.md`](https://github.com/Fundacion-UNID/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
+The canonical contract is [`SDK_LAYERING.md`](https://github.com/soschain/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
 Merge and push validated shared dependency sources to `main`, create immutable
 unpublished tarballs from those main commits with `npm pack`, and install them
 temporarily with `--no-save`. Prove the real local SOS channel (portal, phone
@@ -53,7 +53,7 @@ high-level extensions of the existing `gdc-common-utils-ts` `BundleEditor`,
 APIs instead of duplicating their attachment or claims-first lifecycle, while
 `fhir-data-utils-ts` supplies neutral import, projection and validation tools.
 Follow the
-[clinical accessor adoption matrix](https://github.com/Fundacion-UNID/sos-data-utils-ts/blob/main/docs/CLINICAL_TYPED_ACCESSOR_ADOPTION.md)
+[clinical accessor adoption matrix](https://github.com/soschain/sos-data-utils-ts/blob/main/docs/CLINICAL_TYPED_ACCESSOR_ADOPTION.md)
 before changing dependencies: unaffected portals and assistants are not forced
 to upgrade merely because a lower package published a newer editor.
 

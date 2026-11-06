@@ -1,7 +1,7 @@
 # Shared SOS SDK Core agent contract
 ## Blocking local-first SDK release
 
-The canonical contract is [`SDK_LAYERING.md`](https://github.com/Fundacion-UNID/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
+The canonical contract is [`SDK_LAYERING.md`](https://github.com/soschain/sos-data-utils-ts/blob/main/docs/SDK_LAYERING.md).
 Merge validated shared dependencies to `main`, build immutable unpublished
 tarballs from those commits with `npm pack`, install them temporarily with
 `--no-save`, and prove the real local Vet channel (portal, phone service,
